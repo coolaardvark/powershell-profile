@@ -4,6 +4,9 @@ Set-Alias -Name instutil -Value 'C:\Windows\Microsoft.NET\Framework\v4.0.30319\I
 Set-Alias -Name nuget -Value "C:\Users\$ENV:UserName\AppData\Local\NuGet\nuget.exe"
 Set-Alias -Name logp -Value 'C:\Program Files (x86)\Log Parser 2.2\LogParser.exe'
 
+# Stop dotnet 'phoning home' and spewing lots of stuff to the console each time
+$ENV:DOTNET_CLI_TELEMETRY_OPTOUT = 1
+# I want to default to running stuff I've written in debug mode
 $ENV:DOTNET_ENVIRONMENT = 'Development'
 
 function Prompt {
@@ -46,6 +49,9 @@ function ff($name) {
     Get-ChildItem -recurse -filter "*${name}*" -ErrorAction SilentlyContinue | ForEach-Object {
         Write-Output "$($_.directory)\$($_)"
     }
+}
+function Find-File($name) {
+    ff($name)
 }
 
 function pgrep($name) {
